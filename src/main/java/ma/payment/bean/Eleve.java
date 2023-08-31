@@ -15,7 +15,7 @@ public class Eleve {
     private String dateNaissance;
 
     @Lob
-    private byte[] image;
+    private String image;
     private String imageType;
 
     public String getImageType() {
@@ -80,11 +80,11 @@ public class Eleve {
         this.dateNaissance = dateNaissance;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

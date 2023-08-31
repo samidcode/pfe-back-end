@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/payments")
+@RequestMapping("/api/payments")
 public class PaymentController {
     private final PaymentService paymentService;
 
@@ -52,6 +52,12 @@ public class PaymentController {
     public ResponseEntity<Void> deletePayment(@PathVariable int id) {
         paymentService.deletePayment(id);
         return ResponseEntity.noContent().build();
+    }
+
+
+    @GetMapping("/findPayment/{id}")
+    public List<Payment> getPaymentsForEleve(@PathVariable int id) {
+        return paymentService.getPaymentsForEleve(id);
     }
 }
 

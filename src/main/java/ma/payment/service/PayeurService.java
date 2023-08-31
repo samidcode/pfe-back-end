@@ -1,8 +1,13 @@
 package ma.payment.service;
 
+import ma.payment.bean.Eleve;
 import ma.payment.bean.Payeur;
+import ma.payment.dao.EleveDao;
 import ma.payment.dao.PayeurDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +20,9 @@ public class PayeurService {
     public PayeurService(PayeurDao payeurDao ) {
         this.payeurDao =  payeurDao;
     }
+
+    @Autowired
+    private EleveDao eleveRepository;
 
     public List<Payeur> getAllPayeurs() {
         return payeurDao.findAll();
@@ -35,5 +43,21 @@ public class PayeurService {
     public List<Payeur> autoComplet(String cin) {
       return  payeurDao.findByCinContainingIgnoreCase(cin);
     }
+    public Page<Payeur> payeurPagination(int page , int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        return payeurDao.findAll(pageable);
+
+    }
+
+   public List<Eleve> findElevesById(Integer payeurId){
+
+       return eleveRepository.findByPayeurId(payeurId);
+
+   }
+
+
+
+
 }
 

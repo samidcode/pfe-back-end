@@ -14,7 +14,7 @@ import org.springframework.web.filter.CorsFilter;
 import java.util.Arrays;
 
 @Slf4j
-@SpringBootApplication(exclude = {UserDetailsServiceAutoConfiguration.class})
+@SpringBootApplication
 public class BackendApplication {
 
 	public static void main(String[] args) {

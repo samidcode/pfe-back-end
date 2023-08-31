@@ -31,4 +31,8 @@ public class PaymentService {
     public void deletePayment(int id) {
         paymentDao.deleteById(id);
     }
+
+    public List<Payment> getPaymentsForEleve(Integer eleveId) {
+        return paymentDao.findByEleveId(eleveId);
+    }
 }

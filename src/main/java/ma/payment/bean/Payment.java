@@ -10,6 +10,8 @@ public class Payment {
     private String date;
     private Integer montant;
     private String moisP;
+
+    private String yearP;
     private String objet;
 
     @ManyToOne
@@ -18,7 +20,7 @@ public class Payment {
     @ManyToOne
     private Eleve eleve;
 
-    public Payment(Integer id, String date, Integer montant, String moisP, String objet, Payeur payeur, Eleve eleve) {
+    public Payment(Integer id, String date, Integer montant, String moisP, String objet, Payeur payeur, Eleve eleve, String yearP) {
         this.id = id;
         this.date = date;
         this.montant = montant;
@@ -26,6 +28,7 @@ public class Payment {
         this.objet = objet;
         this.payeur = payeur;
         this.eleve = eleve;
+       // this.yearP = yearP;
     }
 
     public Payment() {
@@ -59,11 +62,15 @@ public class Payment {
     public String getMoisP() {
         return moisP;
     }
-
+    public String getYearP() {
+        return yearP;
+    }
     public void setMoisP(String moisP) {
         this.moisP = moisP;
     }
-
+    public void setYearP(String yearP) {
+        this.yearP = yearP;
+    }
     public String getObjet() {
         return objet;
     }
