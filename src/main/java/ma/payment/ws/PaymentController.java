@@ -4,6 +4,7 @@ import ma.payment.bean.Payment;
 import ma.payment.exceptions.EntityNotFoundException;
 import ma.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +42,7 @@ public class PaymentController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Payment> updatePayment(@PathVariable int id, @RequestBody Payment payment) {
-        Payment existingPayment = paymentService.getPaymentById(id)
+       paymentService.getPaymentById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Payment not found with ID: " + id));
         payment.setId(id);
         Payment updatedPayment = paymentService.savePayment(payment);
@@ -58,6 +59,21 @@ public class PaymentController {
     @GetMapping("/findPayment/{id}")
     public List<Payment> getPaymentsForEleve(@PathVariable int id) {
         return paymentService.getPaymentsForEleve(id);
+    }
+
+    @GetMapping("/{eleveId}/paymentStatus")
+    public ResponseEntity<Boolean> checkPaymentStatus(@PathVariable Integer eleveId) {
+
+        boolean paidLastMonth = paymentService.hasPaidForLastMonth(eleveId);
+        return ResponseEntity.ok(paidLastMonth);
+    }
+    @GetMapping("/paymentPagination")
+    public ResponseEntity<Page<Payment>> getStudents(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ) {
+        Page<Payment> payments = paymentService.paymentPagination(page,size);
+        return ResponseEntity.ok(payments);
     }
 }
 

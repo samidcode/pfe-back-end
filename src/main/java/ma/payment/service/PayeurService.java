@@ -57,6 +57,9 @@ public class PayeurService {
    }
 
 
+    public List<Payeur> searchPyeur(String keyword) {
+        return payeurDao.searchByMultipleAttributes(keyword);
+    }
 
 
 }

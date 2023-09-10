@@ -2,6 +2,7 @@ package ma.payment.ws;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ma.payment.bean.Eleve;
+import ma.payment.dto.EleveWithStatusDTO;
 import ma.payment.exceptions.EntityNotFoundException;
 import ma.payment.service.EleveService;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -31,9 +32,7 @@ public class EleveController {
 
     @GetMapping
     public List<Eleve> getAllEleves() {
-        List<Eleve> eleves = eleveService.getAllEleves();
-        System.out.println(eleves);
-        return eleves;
+        return eleveService.getAllEleves();
     }
 
     @GetMapping("/{id}")
@@ -44,32 +43,14 @@ public class EleveController {
     }
 
     @PostMapping
-    public ResponseEntity<Eleve> createEleve(  @RequestParam("eleve") String eleves ) throws IOException {
-
-
-        System.out.println(eleves);
-
-        Eleve e = new ObjectMapper().readValue(eleves,Eleve.class);
-        Eleve eleve = new Eleve();
-        if (e.getId()!=null){
-            eleve.setId(e.getId());
-        }
-
-        eleve.setImage(e.getImage());
-        eleve.setClasse(e.getClasse());
-        eleve.setNom(e.getNom());
-        eleve.setPrenom(e.getPrenom());
-        eleve.setDateNaissance(e.getDateNaissance());
-        eleve.setIdMassar(e.getIdMassar());
-        eleve.setPayeur(e.getPayeur());
-
-        Eleve createdEleve = eleveService.saveEleve(eleve);
+    public ResponseEntity<Eleve> createEleve(  @RequestBody Eleve e ) throws IOException {
+        Eleve createdEleve = eleveService.saveEleve(e);
         return new ResponseEntity<>(createdEleve, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Eleve> updateEleve(@PathVariable int id, @RequestBody Eleve eleve) {
-        Eleve existingEleve = eleveService.getEleveById(id)
+       eleveService.getEleveById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Eleve not found with ID: " + id));
         eleve.setId(id);
         Eleve updatedEleve = eleveService.saveEleve(eleve);
@@ -90,11 +71,11 @@ public class EleveController {
 
 
     @GetMapping("/elevePagination")
-    public ResponseEntity<Page<Eleve>> getPagination(
+    public ResponseEntity<Page<EleveWithStatusDTO>> getPagination(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size
     ) {
-        Page<Eleve> students = eleveService.elevePagination(page,size);
+        Page<EleveWithStatusDTO> students = eleveService.elevePagination(page,size);
         return ResponseEntity.ok(students);
     }
 }

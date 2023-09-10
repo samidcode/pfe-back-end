@@ -43,7 +43,7 @@ public class PayeurController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Payeur> updatePayeur(@PathVariable int id, @RequestBody Payeur payeur) {
-        Payeur existingPayeur = payeurService.getPayeurById(id)
+        payeurService.getPayeurById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Payeur not found with ID: " + id));
         payeur.setId(id);
         Payeur updatedPayeur = payeurService.savePayeur(payeur);
@@ -62,7 +62,7 @@ public class PayeurController {
     }
 
 
-    @GetMapping("/payeurpagination")
+    @GetMapping("/payeurPagination")
     public ResponseEntity<Page<Payeur>> getStudents(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size
@@ -77,6 +77,12 @@ public class PayeurController {
         List<Eleve> Eleves = payeurService.findElevesById(id);
 
         return ResponseEntity.ok(Eleves);
+    }
+
+    @GetMapping("/payeurSearch")
+    public ResponseEntity<List<Payeur>> searchContacts(@RequestParam String keyword) {
+        List<Payeur> payeurs = payeurService.searchPyeur(keyword);
+        return ResponseEntity.ok(payeurs);
     }
 }
 

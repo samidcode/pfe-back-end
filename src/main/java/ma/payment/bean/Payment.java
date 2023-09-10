@@ -1,5 +1,7 @@
 package ma.payment.bean;
 
+import ma.payment.enums.PaymentObject;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,7 +14,8 @@ public class Payment {
     private String moisP;
 
     private String yearP;
-    private String objet;
+    @Enumerated(EnumType.STRING)
+    private PaymentObject objet;
 
     @ManyToOne
     private Payeur payeur;
@@ -20,7 +23,7 @@ public class Payment {
     @ManyToOne
     private Eleve eleve;
 
-    public Payment(Integer id, String date, Integer montant, String moisP, String objet, Payeur payeur, Eleve eleve, String yearP) {
+    public Payment(Integer id, String date, Integer montant, String moisP, PaymentObject  objet, Payeur payeur, Eleve eleve, String yearP) {
         this.id = id;
         this.date = date;
         this.montant = montant;
@@ -28,7 +31,7 @@ public class Payment {
         this.objet = objet;
         this.payeur = payeur;
         this.eleve = eleve;
-       // this.yearP = yearP;
+        this.yearP = yearP;
     }
 
     public Payment() {
@@ -71,11 +74,11 @@ public class Payment {
     public void setYearP(String yearP) {
         this.yearP = yearP;
     }
-    public String getObjet() {
+    public PaymentObject  getObjet() {
         return objet;
     }
 
-    public void setObjet(String objet) {
+    public void setObjet(PaymentObject  objet) {
         this.objet = objet;
     }
 

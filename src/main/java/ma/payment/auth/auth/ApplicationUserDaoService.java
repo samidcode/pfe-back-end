@@ -1,55 +1,42 @@
 package ma.payment.auth.auth;
 
-import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import ma.payment.bean.Users;
+import ma.payment.dao.UsersDao;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 import static ma.payment.auth.Security.UserRoles.ADMIN;
-import static ma.payment.auth.Security.UserRoles.STUDENT;
 
 
-@Repository("fake")
+@Service("fake")
+@RequiredArgsConstructor
 public class ApplicationUserDaoService implements  ApplicationUserDao{
 
- private final PasswordEncoder passwordEncoder ;
-    public ApplicationUserDaoService(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
+    private final UsersDao usersDao;
+    private final PasswordEncoder passwordEncoder;
+
     @Override
     public Optional<ApplicationUser> selectApplicationUserByUsername(String username) {
-        return getApplicationUser()
-                .stream()
-                .filter(applicationUser -> username.equals(applicationUser.getUsername()))
-                .findFirst();
-    }
-
-    private List<ApplicationUser> getApplicationUser(){
-        List<ApplicationUser>applicationUsers = Lists.newArrayList(
-            new ApplicationUser(
-                    STUDENT.getGrantedAuthorities(),
-                    passwordEncoder.encode("123456"),
-                    "samidi",
-                    true,
-                    true,
-                    true,
-                    true
-            ),
-                new ApplicationUser(
+        return usersDao.findByEmail(username)
+                .map(user -> new ApplicationUser(
                         ADMIN.getGrantedAuthorities(),
-                        passwordEncoder.encode("123456"),
-                        "admin",
+                        user.getPassword(),
+                        user.getEmail(),
                         true,
                         true,
                         true,
                         true
-                )
+                ));
+    }
 
-        );
-    return applicationUsers;
+    public Optional<Users> saveApplicationUser(ApplicationUser appUser){
+        var user = new Users();
+        user.setEmail(appUser.getUsername());
+        user.setPassword(passwordEncoder.encode(appUser.getPassword()));
+       return Optional.of(usersDao.save(user));
 
     }
 }

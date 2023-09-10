@@ -11,4 +11,7 @@ public interface PaymentDao extends JpaRepository<Payment, Integer> {
 
     List<Payment> findByEleveId(Integer eleveId);
 
+    boolean existsByEleveIdAndMoisP(Integer eleveId, String moisP);
+
+
 }
