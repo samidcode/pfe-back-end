@@ -1,22 +1,20 @@
 package ma.payment.ws;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import ma.payment.bean.Eleve;
+import ma.payment.bean.Payment;
+import ma.payment.dto.CreatedEleve;
 import ma.payment.dto.EleveWithStatusDTO;
 import ma.payment.exceptions.EntityNotFoundException;
 import ma.payment.service.EleveService;
-import org.apache.tomcat.util.codec.binary.Base64;
+import ma.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,14 +22,16 @@ import java.util.Objects;
 @RequestMapping("/api/eleves")
 public class EleveController {
     private final EleveService eleveService;
-
+    private final PaymentService paymentService;
     @Autowired
-    public EleveController(EleveService eleveService) {
+    public EleveController(EleveService eleveService, PaymentService paymentService) {
         this.eleveService = eleveService;
+        this.paymentService = paymentService;
     }
 
     @GetMapping
     public List<Eleve> getAllEleves() {
+
         return eleveService.getAllEleves();
     }
 
@@ -43,11 +43,35 @@ public class EleveController {
     }
 
     @PostMapping
-    public ResponseEntity<Eleve> createEleve(  @RequestBody Eleve e ) throws IOException {
-        Eleve createdEleve = eleveService.saveEleve(e);
-        return new ResponseEntity<>(createdEleve, HttpStatus.CREATED);
-    }
+    public ResponseEntity<CreatedEleve> createEleve(@RequestBody Eleve e, @RequestParam("inscriptionFrais") int inscriptionFrai, @RequestParam("inscriptionAnnee") String inscriptionAnnee) throws IOException {
 
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        String formattedDate = sdf.format(new Date());
+
+        if (Objects.isNull(e.getId())){
+
+            e.setDateDeCreation(formattedDate);
+        }
+
+        Eleve createdEleve = eleveService.saveEleve(e);
+        Payment p = new Payment();
+
+
+
+        p.setDate(formattedDate);
+        p.setEleve(e);
+        p.setObjet("Inscription");
+        p.setMontant(inscriptionFrai);
+        p.setPayeur(e.getPayeur());
+        p.setYearP(inscriptionAnnee);
+
+        Payment payment = paymentService.savePayment(p);
+
+        CreatedEleve createdObjects = new CreatedEleve(createdEleve, payment);
+
+        return new ResponseEntity<>(createdObjects, HttpStatus.CREATED);
+    }
     @PutMapping("/{id}")
     public ResponseEntity<Eleve> updateEleve(@PathVariable int id, @RequestBody Eleve eleve) {
        eleveService.getEleveById(id)

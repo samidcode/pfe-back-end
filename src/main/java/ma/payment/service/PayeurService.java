@@ -9,7 +9,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -33,6 +37,14 @@ public class PayeurService {
     }
 
     public Payeur savePayeur(Payeur payeur) {
+
+        if (Objects.isNull(payeur.getId())){
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            String formattedDate = sdf.format(new Date());
+            payeur.setDateDeCreation(formattedDate);
+
+        }
         return payeurDao.save(payeur);
     }
 

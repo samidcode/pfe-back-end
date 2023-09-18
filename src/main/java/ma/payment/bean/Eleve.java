@@ -14,6 +14,16 @@ public class Eleve {
     private String prenom;
     private String dateNaissance;
 
+    private String dateDeCreation;
+
+    public String getDateDeCreation() {
+        return dateDeCreation;
+    }
+
+    public void setDateDeCreation(String dateDeCreation) {
+        this.dateDeCreation = dateDeCreation;
+    }
+
     @Lob
     private String image;
     private String imageType;

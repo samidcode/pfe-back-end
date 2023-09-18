@@ -14,6 +14,15 @@ public class Payeur {
     private Integer tele;
     private String mail;
     private String adresse;
+    private String dateDeCreation;
+
+    public String getDateDeCreation() {
+        return dateDeCreation;
+    }
+
+    public void setDateDeCreation(String dateDeCreation) {
+        this.dateDeCreation = dateDeCreation;
+    }
 
     @OneToMany
     private List<Payment> payments;

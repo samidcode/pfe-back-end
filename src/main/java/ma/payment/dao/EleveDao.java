@@ -17,5 +17,7 @@ public interface EleveDao extends JpaRepository<Eleve, Integer> {
             "LOWER(c.idMassar) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Eleve> searchByNameLastNameAndCode(@Param("keyword") String keyword);
     List<Eleve> findByPayeurId(Integer payeurId);
+    List<Eleve> findByClasseId(Integer classeId);
+
 
 }

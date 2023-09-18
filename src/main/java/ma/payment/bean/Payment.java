@@ -1,8 +1,10 @@
 package ma.payment.bean;
 
-import ma.payment.enums.PaymentObject;
 
 import javax.persistence.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Entity
 public class Payment {
@@ -14,8 +16,16 @@ public class Payment {
     private String moisP;
 
     private String yearP;
-    @Enumerated(EnumType.STRING)
-    private PaymentObject objet;
+    private String objet;
+    private String dateDeCreation;
+
+    public String getDateDeCreation() {
+        return dateDeCreation;
+    }
+
+    public void setDateDeCreation(String dateDeCreation) {
+        this.dateDeCreation = dateDeCreation;
+    }
 
     @ManyToOne
     private Payeur payeur;
@@ -23,7 +33,7 @@ public class Payment {
     @ManyToOne
     private Eleve eleve;
 
-    public Payment(Integer id, String date, Integer montant, String moisP, PaymentObject  objet, Payeur payeur, Eleve eleve, String yearP) {
+    public Payment(Integer id, String date, Integer montant, String moisP, String  objet, Payeur payeur, Eleve eleve, String yearP ,  String dateDeCreation) {
         this.id = id;
         this.date = date;
         this.montant = montant;
@@ -32,6 +42,7 @@ public class Payment {
         this.payeur = payeur;
         this.eleve = eleve;
         this.yearP = yearP;
+        this.dateDeCreation = dateDeCreation;
     }
 
     public Payment() {
@@ -74,11 +85,11 @@ public class Payment {
     public void setYearP(String yearP) {
         this.yearP = yearP;
     }
-    public PaymentObject  getObjet() {
+    public String  getObjet() {
         return objet;
     }
 
-    public void setObjet(PaymentObject  objet) {
+    public void setObjet(String  objet) {
         this.objet = objet;
     }
 

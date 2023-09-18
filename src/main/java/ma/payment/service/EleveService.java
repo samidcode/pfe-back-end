@@ -58,7 +58,8 @@ public class EleveService {
                 eleve.getImageType(),
                 eleve.getClasse(),
                 eleve.getPayeur(),
-                paymentService.hasPaidForLastMonth(eleve.getId()) // Assuming eleve has an ID field
+                paymentService.hasPaidForLastMonth(eleve.getId()) ,// Assuming eleve has an ID field,
+                eleve.getDateDeCreation()
         ));
 
         return eleveWithStatusPage;
@@ -66,7 +67,9 @@ public class EleveService {
     }
 
 
-  
+    public List<Eleve> getElevesByClasseId(Integer classeId) {
+        return eleveDao.findByClasseId(classeId);
+    }
 
 
 }

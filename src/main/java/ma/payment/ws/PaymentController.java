@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/payments")
@@ -37,6 +38,7 @@ public class PaymentController {
     @PostMapping
     public ResponseEntity<Payment> createPayment(@RequestBody Payment payment) {
         Payment createdPayment = paymentService.savePayment(payment);
+        System.out.println("======================>"+payment.toString());
         return new ResponseEntity<>(createdPayment, HttpStatus.CREATED);
     }
 
@@ -75,5 +77,28 @@ public class PaymentController {
         Page<Payment> payments = paymentService.paymentPagination(page,size);
         return ResponseEntity.ok(payments);
     }
+
+    @GetMapping("/find")
+    public ResponseEntity<Payment> findPayment(
+            @RequestParam String moisP,
+            @RequestParam String yearP,
+            @RequestParam Integer eleveId,
+            @RequestParam String objet
+    ) {
+        Optional<Payment> payment = paymentService.getPaymentByMonth(moisP, yearP, eleveId, objet);
+        System.out.println("===============================================> "+moisP);
+        System.out.println("===============================================> "+yearP);
+        System.out.println("===============================================> "+eleveId);
+
+        System.out.println("===============================================> "+objet);
+        System.out.println("===============================================> "+payment.toString());
+
+        if (payment.isPresent()) {
+            return new ResponseEntity<>(payment.get(), HttpStatus.OK);
+        } else {
+            return null;
+        }
+    }
+
 }
 

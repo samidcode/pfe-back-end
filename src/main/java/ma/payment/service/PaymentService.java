@@ -9,9 +9,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.TextStyle;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -33,6 +35,9 @@ public class PaymentService {
     }
 
     public Payment savePayment(Payment payment) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        String formattedDate = sdf.format(new Date());
+        payment.setDate(formattedDate);
         return paymentDao.save(payment);
     }
 
@@ -49,7 +54,7 @@ public class PaymentService {
 
         ZonedDateTime serverDateTime = ZonedDateTime.now();
 
-        String monthName = serverDateTime.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+        String monthName = serverDateTime.getMonth().getDisplayName(TextStyle.FULL, Locale.FRANCE);
         return paymentDao.existsByEleveIdAndMoisP(eleveId,monthName);
 
 
@@ -58,6 +63,13 @@ public class PaymentService {
 
         Pageable pageable = PageRequest.of(page, size);
         return paymentDao.findAll(pageable);
+
+    }
+
+    public Optional<Payment>  getPaymentByMonth(String moisP, String yearP, Integer eleveId, String objet){
+
+        return paymentDao.findByMoisPAndYearPAndEleve_IdAndObjet(moisP, yearP, eleveId, objet);
+
 
     }
 }

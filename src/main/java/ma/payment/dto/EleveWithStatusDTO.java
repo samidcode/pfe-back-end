@@ -90,13 +90,24 @@ public class EleveWithStatusDTO {
     private String nom;
     private String prenom;
     private String dateNaissance;
+
+    public String getDateDeCreation() {
+        return dateDeCreation;
+    }
+
+    public void setDateDeCreation(String dateDeCreation) {
+        this.dateDeCreation = dateDeCreation;
+    }
+
     private String image;
     private String imageType;
     private Classe classe;
     private Payeur payeur;
+    private String dateDeCreation;
+
     private boolean statue; // Assuming "statue" is a boolean attribute
 
-    public EleveWithStatusDTO(Integer id, String idMassar, String nom, String prenom, String dateNaissance, String image, String imageType, Classe classe, Payeur payeur, boolean statue) {
+    public EleveWithStatusDTO(Integer id, String idMassar, String nom, String prenom, String dateNaissance, String image, String imageType, Classe classe, Payeur payeur, boolean statue,String dateDeCreation) {
         this.id = id;
         this.idMassar = idMassar;
         this.nom = nom;
@@ -107,7 +118,7 @@ public class EleveWithStatusDTO {
         this.classe = classe;
         this.payeur = payeur;
         this.statue = statue;
+        this.dateDeCreation =dateDeCreation;
     }
 
-    // Getters and setters for all attributes, including "statue"
 }
