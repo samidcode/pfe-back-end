@@ -45,28 +45,26 @@ public class EleveController {
     @PostMapping
     public ResponseEntity<CreatedEleve> createEleve(@RequestBody Eleve e, @RequestParam("inscriptionFrais") int inscriptionFrai, @RequestParam("inscriptionAnnee") String inscriptionAnnee) throws IOException {
 
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        String formattedDate = sdf.format(new Date());
-
+        Payment p = new Payment();
+        Payment payment = null;
         if (Objects.isNull(e.getId())){
 
-            e.setDateDeCreation(formattedDate);
+            e.setDateDeCreation(new Date());
+            p.setEleve(e);
+            p.setObjet("Inscription");
+            p.setMontant(inscriptionFrai);
+            p.setPayeur(e.getPayeur());
+            p.setYearP(inscriptionAnnee);
+            p.setDateDeCreation(new Date());
         }
 
         Eleve createdEleve = eleveService.saveEleve(e);
-        Payment p = new Payment();
 
+if(Objects.nonNull(p)){
+    payment = paymentService.savePayment(p);
 
+}
 
-        p.setDate(formattedDate);
-        p.setEleve(e);
-        p.setObjet("Inscription");
-        p.setMontant(inscriptionFrai);
-        p.setPayeur(e.getPayeur());
-        p.setYearP(inscriptionAnnee);
-
-        Payment payment = paymentService.savePayment(p);
 
         CreatedEleve createdObjects = new CreatedEleve(createdEleve, payment);
 

@@ -90,9 +90,11 @@ public class ClasseService {
         // Format the Date to "dd/MM/yyyy" format using SimpleDateFormat
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return sdf.format(date);
-
-
-
     }
+
+    public List<Classe> searchClasse(String keyword) {
+        return classeDao.search(keyword);
+    }
+
 }
 

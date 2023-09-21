@@ -1,6 +1,7 @@
 package ma.payment.bean;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -14,13 +15,13 @@ public class Payeur {
     private Integer tele;
     private String mail;
     private String adresse;
-    private String dateDeCreation;
+    private Date dateDeCreation;
 
-    public String getDateDeCreation() {
+    public Date getDateDeCreation() {
         return dateDeCreation;
     }
 
-    public void setDateDeCreation(String dateDeCreation) {
+    public void setDateDeCreation(Date dateDeCreation) {
         this.dateDeCreation = dateDeCreation;
     }
 

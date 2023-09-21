@@ -11,21 +11,13 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String date;
     private Integer montant;
     private String moisP;
 
     private String yearP;
     private String objet;
-    private String dateDeCreation;
+    private Date dateDeCreation;
 
-    public String getDateDeCreation() {
-        return dateDeCreation;
-    }
-
-    public void setDateDeCreation(String dateDeCreation) {
-        this.dateDeCreation = dateDeCreation;
-    }
 
     @ManyToOne
     private Payeur payeur;
@@ -33,9 +25,8 @@ public class Payment {
     @ManyToOne
     private Eleve eleve;
 
-    public Payment(Integer id, String date, Integer montant, String moisP, String  objet, Payeur payeur, Eleve eleve, String yearP ,  String dateDeCreation) {
+    public Payment(Integer id, Integer montant, String moisP, String  objet, Payeur payeur, Eleve eleve, String yearP ,  Date dateDeCreation) {
         this.id = id;
-        this.date = date;
         this.montant = montant;
         this.moisP = moisP;
         this.objet = objet;
@@ -48,6 +39,13 @@ public class Payment {
     public Payment() {
 
     }
+    public Date getDateDeCreation() {
+        return dateDeCreation;
+    }
+
+    public void setDateDeCreation(Date dateDeCreation) {
+        this.dateDeCreation = dateDeCreation;
+    }
 
     public Integer getId() {
         return id;
@@ -55,14 +53,6 @@ public class Payment {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 
     public Integer getMontant() {

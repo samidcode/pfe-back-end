@@ -54,8 +54,8 @@ public class BackendApplication {
 	public void seeders(){
 		userDaoService.selectApplicationUserByUsername("admin@admin.com").or(() ->  userDaoService.saveApplicationUser( new ApplicationUser(
 					ADMIN.getGrantedAuthorities(),
-					password,
-					email,
+					"123456",
+					"admin@admin.com",
 					true,
 					true,
 					true,

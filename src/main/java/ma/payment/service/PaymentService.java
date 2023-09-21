@@ -1,6 +1,7 @@
 package ma.payment.service;
 
 
+import ma.payment.bean.Classe;
 import ma.payment.bean.Payment;
 import ma.payment.dao.PaymentDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,6 @@ public class PaymentService {
     }
 
     public Payment savePayment(Payment payment) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        String formattedDate = sdf.format(new Date());
-        payment.setDate(formattedDate);
         return paymentDao.save(payment);
     }
 
@@ -69,6 +67,13 @@ public class PaymentService {
     public Optional<Payment>  getPaymentByMonth(String moisP, String yearP, Integer eleveId, String objet){
 
         return paymentDao.findByMoisPAndYearPAndEleve_IdAndObjet(moisP, yearP, eleveId, objet);
+
+
+    }
+
+    public List<Payment> searchPayment(String keyword) {
+
+        return paymentDao.searchPaymentsByKeyword(keyword);
 
 
     }

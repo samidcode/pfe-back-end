@@ -3,6 +3,7 @@ package ma.payment.bean;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Eleve {
@@ -14,13 +15,13 @@ public class Eleve {
     private String prenom;
     private String dateNaissance;
 
-    private String dateDeCreation;
+    private Date dateDeCreation;
 
-    public String getDateDeCreation() {
+    public Date getDateDeCreation() {
         return dateDeCreation;
     }
 
-    public void setDateDeCreation(String dateDeCreation) {
+    public void setDateDeCreation(Date dateDeCreation) {
         this.dateDeCreation = dateDeCreation;
     }
 

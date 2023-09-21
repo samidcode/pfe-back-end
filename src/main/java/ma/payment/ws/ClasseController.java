@@ -131,7 +131,11 @@ public class ClasseController {
         return workbook;
     }
 
-
+    @GetMapping("/classeSearch")
+    public List<Classe> searchClasses(@RequestParam String keyword) {
+        // Call the service to perform the search
+        return classeService.searchClasse(keyword);
+    }
 
 }
 

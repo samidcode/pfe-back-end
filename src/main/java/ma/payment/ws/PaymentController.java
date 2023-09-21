@@ -1,5 +1,6 @@
 package ma.payment.ws;
 
+import ma.payment.bean.Classe;
 import ma.payment.bean.Payment;
 import ma.payment.exceptions.EntityNotFoundException;
 import ma.payment.service.PaymentService;
@@ -9,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -37,8 +40,15 @@ public class PaymentController {
 
     @PostMapping
     public ResponseEntity<Payment> createPayment(@RequestBody Payment payment) {
+
+
+        if (Objects.isNull(payment.getId())){
+
+           payment.setDateDeCreation(new Date());
+        }
+
         Payment createdPayment = paymentService.savePayment(payment);
-        System.out.println("======================>"+payment.toString());
+
         return new ResponseEntity<>(createdPayment, HttpStatus.CREATED);
     }
 
@@ -99,6 +109,10 @@ public class PaymentController {
             return null;
         }
     }
-
+    @GetMapping("/paymentSearch")
+    public List<Payment> searchClasses(@RequestParam String keyword) {
+        // Call the service to perform the search
+        return paymentService.searchPayment(keyword);
+    }
 }
 

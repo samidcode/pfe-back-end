@@ -40,9 +40,7 @@ public class PayeurService {
 
         if (Objects.isNull(payeur.getId())){
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-            String formattedDate = sdf.format(new Date());
-            payeur.setDateDeCreation(formattedDate);
+            payeur.setDateDeCreation(new Date());
 
         }
         return payeurDao.save(payeur);

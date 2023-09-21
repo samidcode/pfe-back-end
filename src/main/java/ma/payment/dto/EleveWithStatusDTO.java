@@ -3,6 +3,8 @@ package ma.payment.dto;
 import ma.payment.bean.Classe;
 import ma.payment.bean.Payeur;
 
+import java.util.Date;
+
 public class EleveWithStatusDTO {
     private Integer id;
 
@@ -91,11 +93,11 @@ public class EleveWithStatusDTO {
     private String prenom;
     private String dateNaissance;
 
-    public String getDateDeCreation() {
+    public Date getDateDeCreation() {
         return dateDeCreation;
     }
 
-    public void setDateDeCreation(String dateDeCreation) {
+    public void setDateDeCreation(Date dateDeCreation) {
         this.dateDeCreation = dateDeCreation;
     }
 
@@ -103,11 +105,11 @@ public class EleveWithStatusDTO {
     private String imageType;
     private Classe classe;
     private Payeur payeur;
-    private String dateDeCreation;
+    private Date dateDeCreation;
 
     private boolean statue; // Assuming "statue" is a boolean attribute
 
-    public EleveWithStatusDTO(Integer id, String idMassar, String nom, String prenom, String dateNaissance, String image, String imageType, Classe classe, Payeur payeur, boolean statue,String dateDeCreation) {
+    public EleveWithStatusDTO(Integer id, String idMassar, String nom, String prenom, String dateNaissance, String image, String imageType, Classe classe, Payeur payeur, boolean statue,Date dateDeCreation) {
         this.id = id;
         this.idMassar = idMassar;
         this.nom = nom;
