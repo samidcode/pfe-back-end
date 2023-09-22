@@ -41,8 +41,29 @@ public class EleveService {
     }
 
 
-    public List<Eleve> searchEleve(String keyword) {
-        return eleveDao.searchByNameLastNameAndCode(keyword);
+    public List<EleveWithStatusDTO> searchEleve(String keyword) {
+
+        List<Eleve> eleves = eleveDao.searchByNameLastNameAndCode(keyword);
+
+
+        List<EleveWithStatusDTO> eleveWithStatusPage = eleves.stream().map(eleve -> new EleveWithStatusDTO(
+                eleve.getId(),
+                eleve.getIdMassar(),
+                eleve.getNom(),
+                eleve.getPrenom(),
+                eleve.getDateNaissance(),
+                eleve.getImage(),
+                eleve.getImageType(),
+                eleve.getClasse(),
+                eleve.getPayeur(),
+                paymentService.hasPaidForLastMonth(eleve.getId()) ,
+                eleve.getDateDeCreation()
+        )).collect(Collectors.toList());
+
+        return eleveWithStatusPage;
+
+
+
     }
 
     public Page<EleveWithStatusDTO> elevePagination(int page , int size) {

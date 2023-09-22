@@ -86,8 +86,8 @@ if(Objects.nonNull(p)){
     }
 
     @GetMapping("/eleveSearch")
-    public ResponseEntity<List<Eleve>> searchContacts(@RequestParam String keyword) {
-        List<Eleve> eleves = eleveService.searchEleve(keyword);
+    public ResponseEntity<List<EleveWithStatusDTO>> searchContacts(@RequestParam String keyword) {
+        List<EleveWithStatusDTO> eleves = eleveService.searchEleve(keyword);
         return ResponseEntity.ok(eleves);
     }
 
