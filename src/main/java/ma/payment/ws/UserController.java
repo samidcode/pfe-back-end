@@ -45,7 +45,7 @@ public class UserController {
     ) {
         Users user = usersService.findByEmail(email);
 
-        if ((passwordEncoder.matches( newpassword,user.getPassword()))) {
+        if ((passwordEncoder.matches( currentpassword,user.getPassword()))) {
             user.setPassword(passwordEncoder.encode(newpassword));
             usersService.saveUser(user);
             return ResponseEntity.ok("Password changed successfully");
